@@ -189,11 +189,26 @@ src/
     ads.ts                configuración de anuncios
 ```
 
-### Por qué `AdSlot` recrea los `<script>`
+### Los anuncios entran por dos caminos distintos
 
-React no ejecuta los `<script>` que llegan por `dangerouslySetInnerHTML`. `AdSlot`
-recorre el snippet y **recrea cada nodo script a mano** para que el navegador lo evalúe.
-Sin eso, el código de Monetag se quedaría inerte en el DOM y no verías ni un céntimo.
+**Los globales** (In-Page Push, Vignette, Interstitial, MultiTag) los escribe
+[`GlobalAdScripts`](src/components/GlobalAdScripts.tsx), que es un componente de
+**servidor**: el snippet sale ya dentro del HTML, justo al abrir el `<body>`, y lo
+ejecuta el navegador mientras parsea. Cuanto antes corre el tag, más impresiones se
+cuentan — y en un acortador mucha gente entra y se va en el primer segundo.
+
+**Los de hueco fijo** ([`AdSlot`](src/components/AdSlot.tsx)) se inyectan desde el
+cliente, porque dependen del paso de la página puente en el que estés. Ahí hay un
+detalle importante: React **no ejecuta** los `<script>` que llegan por
+`dangerouslySetInnerHTML` una vez la página está viva, así que `AdSlot` recrea cada
+nodo script a mano. Sin eso el código quedaría inerte en el DOM.
+
+> La misma propiedad no aplica al HTML del servidor: ahí los `<script>` sí se ejecutan,
+> porque el navegador los recibe como parte del documento. De ahí que cada camino use
+> una técnica distinta.
+
+**Nunca pongas el mismo tag por los dos caminos**: cargarlo dos veces por visita son
+impresiones duplicadas, y eso una red publicitaria lo lee como fraude.
 
 ---
 
