@@ -10,3 +10,6 @@ vercel-env.txt
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+
+.vercel
+.env*

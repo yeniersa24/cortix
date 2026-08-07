@@ -2,6 +2,7 @@ import "server-only";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { readEnv } from "./env";
 
 /**
  * Dos backends con la misma interfaz:
@@ -38,13 +39,13 @@ export type EventMeta = {
   referer?: string;
 };
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_URL = readEnv("NEXT_PUBLIC_SUPABASE_URL");
 
 // Supabase renombro las claves: las nuevas son `sb_secret_...` (Secret key) y
 // las antiguas `service_role` son JWT. Las dos valen y sirven igual, asi que
 // aceptamos cualquiera de los dos nombres de variable.
 const SUPABASE_SERVICE_KEY =
-  process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+  readEnv("SUPABASE_SECRET_KEY") || readEnv("SUPABASE_SERVICE_ROLE_KEY");
 
 export const usingSupabase = Boolean(SUPABASE_URL && SUPABASE_SERVICE_KEY);
 

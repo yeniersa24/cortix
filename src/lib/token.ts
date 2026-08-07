@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { readEnv } from "./env";
 
 /**
  * Se resuelve al usarlo, no al importar el modulo: si fallara en tiempo de
@@ -7,7 +8,7 @@ import crypto from "node:crypto";
  * la pagina puente, que es justo de donde sale el dinero, asi que ahi si falla.
  */
 function secret(): string {
-  const value = process.env.APP_SECRET;
+  const value = readEnv("APP_SECRET");
   if (value) return value;
   if (process.env.NODE_ENV === "production") {
     throw new Error("Falta APP_SECRET en las variables de entorno.");
