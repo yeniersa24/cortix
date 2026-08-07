@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  AD_GLOBAL_SNIPPET,
+  AD_GLOBAL_SNIPPETS,
   AD_POPUNDER_ENABLED,
   AD_POPUNDER_SNIPPET,
   AD_SHOW_PLACEHOLDERS,
@@ -95,7 +95,7 @@ export function GlobalAds() {
     if (injected.current || !ref.current) return;
     injected.current = true;
 
-    if (AD_GLOBAL_SNIPPET) injectSnippet(ref.current, AD_GLOBAL_SNIPPET);
+    for (const snippet of AD_GLOBAL_SNIPPETS) injectSnippet(ref.current, snippet);
     if (AD_POPUNDER_ENABLED && AD_POPUNDER_SNIPPET) {
       injectSnippet(ref.current, AD_POPUNDER_SNIPPET);
     }

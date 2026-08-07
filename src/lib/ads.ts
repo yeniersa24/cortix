@@ -38,8 +38,16 @@ export const AD_SNIPPETS: Record<AdSlotName, string> = {
 /**
  * Scripts que se cargan una sola vez por pagina y se posicionan solos
  * (In-Page Push, Vignette, Interstitial, MultiTag).
+ *
+ * Hay varias ranuras porque estos formatos se combinan: lo normal es llevar
+ * In-Page Push y Vignette a la vez, y son dos snippets distintos. Cada zona de
+ * Monetag va en su propia variable; las vacias se ignoran.
  */
-export const AD_GLOBAL_SNIPPET = process.env.NEXT_PUBLIC_AD_GLOBAL || "";
+export const AD_GLOBAL_SNIPPETS: string[] = [
+  process.env.NEXT_PUBLIC_AD_GLOBAL || "",
+  process.env.NEXT_PUBLIC_AD_GLOBAL_2 || "",
+  process.env.NEXT_PUBLIC_AD_GLOBAL_3 || "",
+].filter(Boolean);
 
 /**
  * Popunder: abre una pestana detras al primer clic. Es el formato que mas
@@ -53,4 +61,5 @@ export const AD_POPUNDER_SNIPPET = process.env.NEXT_PUBLIC_AD_POPUNDER_SNIPPET |
 export const AD_SHOW_PLACEHOLDERS =
   process.env.NEXT_PUBLIC_AD_PLACEHOLDERS !== "false";
 
-export const hasAds = Object.values(AD_SNIPPETS).some(Boolean) || Boolean(AD_GLOBAL_SNIPPET);
+export const hasAds =
+  Object.values(AD_SNIPPETS).some(Boolean) || AD_GLOBAL_SNIPPETS.length > 0;
