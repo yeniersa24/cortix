@@ -1,0 +1,4 @@
+# Vercel compila en Linux: normalizamos los saltos de linea para que no haya
+# diferencias fantasma entre Windows y el servidor.
+* text=auto eol=lf
+*.cmd text eol=crlf
