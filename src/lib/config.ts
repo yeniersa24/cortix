@@ -28,8 +28,21 @@ export const CREATE_RATE_LIMIT = num(process.env.CREATE_RATE_LIMIT, 30);
 
 export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || "Cortix";
 
+/**
+ * De donde sale la URL base con la que se construyen los enlaces cortos.
+ *
+ * El orden importa. `VERCEL_URL` cambia en cada despliegue (queda algo como
+ * cortix-a1b2c3.vercel.app), asi que usarla generaria enlaces atados a un
+ * despliegue concreto que dejarian de funcionar al publicar el siguiente.
+ * `VERCEL_PROJECT_PRODUCTION_URL` si es el dominio estable de produccion, por
+ * eso va antes. Asi el primer despliegue ya genera enlaces correctos sin que
+ * tengas que saber la URL de antemano.
+ */
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "") ||
   (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
   "http://localhost:3000"
 ).replace(/\/$/, "");
