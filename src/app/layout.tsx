@@ -29,11 +29,14 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body className="app-bg flex min-h-dvh flex-col">
-        {/* Lo primero del body: cuanto antes se ejecute el tag, mas impresiones
-            se cuentan. */}
+      {/* Los tags de anuncio van en el <head>, que es donde los pide Monetag y
+          donde antes se ejecutan. Cuanto antes corren, mas impresiones se
+          cuentan: en un acortador mucha gente entra y se va en un segundo. */}
+      <head>
         <GlobalAdScripts />
+      </head>
 
+      <body className="app-bg flex min-h-dvh flex-col">
         <header className="border-b border-white/5">
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
             <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
