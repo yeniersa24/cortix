@@ -130,7 +130,13 @@ Un dominio propio no es opcional: Monetag no suele aprobar subdominios de `verce
 1. Da de alta el sitio en Monetag y verifica la propiedad del dominio.
 2. Crea una zona por cada formato de la tabla de arriba.
 3. Copia el snippet de cada zona **tal cual** en su variable de entorno.
-4. Pega las líneas de `ads.txt` que te den en `ADS_TXT` (separa líneas con `\n` literal).
+4. El `sw.js` que te da Monetag va en **`public/sw.js`** (ya está puesto). Next.js sirve
+   esa carpeta tal cual, así que queda accesible en `https://tudominio/sw.js`, que es
+   donde Monetag lo busca para verificar que el sitio es tuyo. Ese mismo archivo es el
+   que después hace funcionar las notificaciones push, si activas ese formato.
+   El alias `sw.js` está en la lista de códigos reservados de
+   [`src/lib/url.ts`](src/lib/url.ts) para que nadie pueda crear un enlace corto que lo tape.
+5. Pega las líneas de `ads.txt` que te den en `ADS_TXT` (separa líneas con `\n` literal).
    Se sirven en `/ads.txt`. Sin esto muchos anunciantes no pujan y tu CPM baja.
 5. Cuando ya tengas snippets reales, pon `NEXT_PUBLIC_AD_PLACEHOLDERS=false` para que
    desaparezcan los recuadros grises.
