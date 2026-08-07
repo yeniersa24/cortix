@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  AD_GLOBAL_SNIPPETS,
-  AD_POPUNDER_ENABLED,
-  AD_POPUNDER_SNIPPET,
-  AD_SHOW_PLACEHOLDERS,
-  AD_SNIPPETS,
-  type AdSlotName,
-} from "@/lib/ads";
+import { AD_SHOW_PLACEHOLDERS, AD_SNIPPETS, type AdSlotName } from "@/lib/ads";
 
 /**
  * React no ejecuta los <script> que llegan por dangerouslySetInnerHTML. Hay que
@@ -81,27 +74,6 @@ export function AdSlot({ name, label = "Espacio publicitario", className = "", m
       <div ref={ref} className="flex justify-center overflow-hidden" />
     </div>
   );
-}
-
-/**
- * Formatos que se colocan solos en la pantalla (In-Page Push, Vignette,
- * Interstitial, MultiTag). Se montan una sola vez por carga de pagina.
- */
-export function GlobalAds() {
-  const ref = useRef<HTMLDivElement>(null);
-  const injected = useRef(false);
-
-  useEffect(() => {
-    if (injected.current || !ref.current) return;
-    injected.current = true;
-
-    for (const snippet of AD_GLOBAL_SNIPPETS) injectSnippet(ref.current, snippet);
-    if (AD_POPUNDER_ENABLED && AD_POPUNDER_SNIPPET) {
-      injectSnippet(ref.current, AD_POPUNDER_SNIPPET);
-    }
-  }, []);
-
-  return <div ref={ref} aria-hidden="true" />;
 }
 
 /**

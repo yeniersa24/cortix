@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { SITE_NAME, SITE_URL } from "@/lib/config";
-import { GlobalAds } from "@/components/AdSlot";
+import { GlobalAdScripts } from "@/components/GlobalAdScripts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -30,6 +30,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="es">
       <body className="app-bg flex min-h-dvh flex-col">
+        {/* Lo primero del body: cuanto antes se ejecute el tag, mas impresiones
+            se cuentan. */}
+        <GlobalAdScripts />
+
         <header className="border-b border-white/5">
           <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
             <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
@@ -68,8 +72,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <span className="text-slate-600">Sitio financiado con publicidad</span>
           </div>
         </footer>
-
-        <GlobalAds />
       </body>
     </html>
   );
