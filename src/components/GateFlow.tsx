@@ -136,10 +136,6 @@ export function GateFlow({ code, title }: Props) {
               {title || "Tu enlace esta casi listo"}
             </h1>
 
-            <p className="mt-2 text-sm text-slate-400">
-              Estamos preparando tu enlace
-            </p>
-
             <div className="mt-6">
               {phase === "loading" && <p className="text-slate-400">Preparando el enlace...</p>}
 
