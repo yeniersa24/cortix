@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GateFlow } from "@/components/GateFlow";
 import { getLink } from "@/lib/store";
-import { safeHost } from "@/lib/url";
 
 export const runtime = "nodejs";
 /** Nunca cachear: el destino no debe quedarse en ningun CDN intermedio. */
@@ -16,7 +15,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: link?.title || "Redirigiendo",
-    description: link ? `Continua hacia ${safeHost(link.destination)}` : "Enlace no encontrado",
+    // La descripcion tampoco menciona el destino: las metaetiquetas viajan en
+    // el HTML y las leen los previsualizadores de WhatsApp, Telegram y demas.
+    description: link ? "Tu enlace se esta preparando" : "Enlace no encontrado",
     // Nada de indexar paginas puente: es contenido sin valor para un buscador
     // y las redes publicitarias lo miran con lupa.
     robots: { index: false, follow: false },
@@ -40,8 +41,8 @@ export default async function GatePage({ params }: Props) {
     );
   }
 
-  // Al componente cliente solo le pasamos el dominio del destino, nunca la URL
-  // completa: si viajara en el HTML, cualquiera la leeria en el codigo fuente y
-  // se saltaria la pagina puente (y con ella, los anuncios).
-  return <GateFlow code={link.code} host={safeHost(link.destination)} title={link.title} />;
+  // Al cliente no le llega nada del destino: ni la URL ni el dominio. Todo lo
+  // que se le pase acaba en el HTML, donde cualquiera puede leerlo en el codigo
+  // fuente, saltarse la pagina puente y con ella los anuncios.
+  return <GateFlow code={link.code} title={link.title} />;
 }

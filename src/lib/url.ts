@@ -80,11 +80,6 @@ export function validateCustomCode(code: string): { ok: true } | { ok: false; er
   return { ok: true };
 }
 
-/** Host del destino, para mostrarselo al visitante antes de mandarlo. */
-export function safeHost(destination: string): string {
-  try {
-    return new URL(destination).hostname.replace(/^www\./, "");
-  } catch {
-    return "destino desconocido";
-  }
-}
+// Aqui vivia safeHost(), que sacaba el dominio del destino para enseñarselo al
+// visitante en la pagina puente. Se elimino al decidir no revelar a donde va el
+// enlace: sin nadie que lo llame, dejarlo seria codigo muerto.

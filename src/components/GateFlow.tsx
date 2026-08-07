@@ -17,11 +17,10 @@ type Phase = "loading" | "waiting" | "ready" | "sending" | "redirecting" | "erro
 
 type Props = {
   code: string;
-  host: string;
   title: string | null;
 };
 
-export function GateFlow({ code, host, title }: Props) {
+export function GateFlow({ code, title }: Props) {
   const [phase, setPhase] = useState<Phase>("loading");
   const [step, setStep] = useState(0);
   const [totalSteps, setTotalSteps] = useState(1);
@@ -138,7 +137,7 @@ export function GateFlow({ code, host, title }: Props) {
             </h1>
 
             <p className="mt-2 text-sm text-slate-400">
-              Te vamos a llevar a <span className="font-medium text-slate-200">{host}</span>
+              Estamos preparando tu enlace
             </p>
 
             <div className="mt-6">
